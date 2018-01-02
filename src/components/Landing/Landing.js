@@ -10,35 +10,94 @@ import {
     Text,
     View,
     Image,
+    AsyncStorage,
 } from 'react-native';
+import  styles from '../../../resources/styles/Nav1StyleSheet';
+
 
 export default class Landing extends Component{
 
+    constructor(props){
+        super(props);
+        this.state = {
+            user:{
+                username:'',
+                password: '',
+                pin_code: '',
+
+            },
+            username:'',
+            password: '',
+            pin_code: '',
+            pin_check: '',
+        }
+    }
+
+    static initControl;
+    async componentWillMount() {
+        try {
+
+            var storage = await AsyncStorage.getItem('@User');
+            if (storage == null) {
+                this.initControl =
+                    <KeyboardAvoidingView style={styles.login_container}>
+
+                        <Image
+                            source={require('../../../resources/imgs/freepik.jpg')}
+                            style={styles.login_header_img}
+                        />
+                        <View style={styles.login_header}>
+                            <Text style={styles.login_text}>Login</Text>
+                        </View>
+
+
+                        <TextInput style={styles.login_text_imput}
+                                   placeholder='username'
+                                   underlineColorAndroid='transparent'/>
+
+
+                        <TextInput style={styles.login_text_imput}
+                                   placeholder='password'
+                                   secureTextEntry={true}
+                                   underlineColorAndroid='transparent'/>
+
+
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}
+                                          style={styles.login_btn}>
+                            <Text style={styles.login_txt}>Login</Text>
+                        </TouchableOpacity>
+
+
+                        <TouchableOpacity style={styles.login_register}>
+                            <Text>Register here</Text>
+                        </TouchableOpacity>
+
+                    </KeyboardAvoidingView>;
+            } else {
+                //Set user state
+                this.setState({user: storage});
+                var res = this.state.user;
+
+                if (res.pin_code !== '') {
+                    //Ask for setting pin code
+                    //Show #pin code view
+                } else {
+                    // set a new pin code for user
+                }
+            }
+        } catch (error) {
+
+        }
+
+    }
+
     render (){
-        setTimeout(()=> this.props.navigation.navigate('Login'),5000);
+
         return (
             <View style={styles.landing_container}>
-             <Image style={styles.landing_img}
-                source={{uri:'https://facebook.github.io/react/logo-og.png'}}
-             />
-                <Image style={styles.landing_loader}
-                source={require('./nav1.gif')}
-                />
+                {this.initControl}
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    landing_container:{
-        flex: 1,
-    },
-    landing_img:{
-        flex:1,
-        alignSelf: 'stretch'
-    },
-    landing_loader:{
-        position: 'absolute',
-        zIndex: 10,
-    }
-});
