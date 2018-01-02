@@ -1,0 +1,3 @@
+rootProject.name = 'Navi1'
+
+include ':app'
