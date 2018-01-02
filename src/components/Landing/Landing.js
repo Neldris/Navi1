@@ -11,6 +11,9 @@ import {
     View,
     Image,
     AsyncStorage,
+    KeyboardAvoidingView,
+    TextInput,
+    TouchableOpacity,
 } from 'react-native';
 import  styles from '../../../resources/styles/Nav1StyleSheet';
 
@@ -33,11 +36,16 @@ export default class Landing extends Component{
         }
     }
 
+    async getLocalStorage(key){
+        return await AsyncStorage.getItem(key);
+    }
+
     static initControl;
-    async componentWillMount() {
+     componentWillMount() {
         try {
 
-            var storage = await AsyncStorage.getItem('@User');
+            var storage =  this.getLocalStorage('USER');
+
             if (storage == null) {
                 this.initControl =
                     <KeyboardAvoidingView style={styles.login_container}>
@@ -81,8 +89,15 @@ export default class Landing extends Component{
                 if (res.pin_code !== '') {
                     //Ask for setting pin code
                     //Show #pin code view
+                    this. initControl =
+                        <KeyboardAvoidingView style={styles.login_container}>
+
+                        </KeyboardAvoidingView>
                 } else {
                     // set a new pin code for user
+                    this.initControl =
+                        <KeyboardAvoidingView style={styles.login_container}>
+                        </KeyboardAvoidingView>
                 }
             }
         } catch (error) {
