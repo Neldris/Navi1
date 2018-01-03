@@ -3,84 +3,43 @@
  */
 
 import React, {Component}from 'react';
-import  GenericComponent from '../generic_components/GenericComponent';
+
 import {
     Platform,
     StyleSheet,
     Text,
     View,
     Image,
+    Button,
     AsyncStorage,
     KeyboardAvoidingView,
     TextInput,
     TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
 import  styles from '../../../resources/styles/Nav1StyleSheet';
+
 
 
 export default class Landing extends Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            user:{
-                username:'',
-                password: '',
-                pin_code: '',
-
-            },
-            username:'',
-            password: '',
-            pin_code: '',
-            pin_check: '',
-        }
     }
 
     async getLocalStorage(key){
         return await AsyncStorage.getItem(key);
     }
 
-    static initControl;
      componentWillMount() {
         try {
 
-            var storage =  this.getLocalStorage('USER');
+            var storage =  this.getLocalStorage('appUser');
 
             if (storage == null) {
-                this.initControl =
-                    <KeyboardAvoidingView style={styles.login_container}>
+                alert('900');
+                 this.props.navigation.navigate('Login');
 
-                        <Image
-                            source={require('../../../resources/imgs/freepik.jpg')}
-                            style={styles.login_header_img}
-                        />
-                        <View style={styles.login_header}>
-                            <Text style={styles.login_text}>Login</Text>
-                        </View>
-
-
-                        <TextInput style={styles.login_text_imput}
-                                   placeholder='username'
-                                   underlineColorAndroid='transparent'/>
-
-
-                        <TextInput style={styles.login_text_imput}
-                                   placeholder='password'
-                                   secureTextEntry={true}
-                                   underlineColorAndroid='transparent'/>
-
-
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}
-                                          style={styles.login_btn}>
-                            <Text style={styles.login_txt}>Login</Text>
-                        </TouchableOpacity>
-
-
-                        <TouchableOpacity style={styles.login_register}>
-                            <Text>Register here</Text>
-                        </TouchableOpacity>
-
-                    </KeyboardAvoidingView>;
             } else {
                 //Set user state
                 this.setState({user: storage});
@@ -89,19 +48,15 @@ export default class Landing extends Component{
                 if (res.pin_code !== '') {
                     //Ask for setting pin code
                     //Show #pin code view
-                    this. initControl =
-                        <KeyboardAvoidingView style={styles.login_container}>
-
-                        </KeyboardAvoidingView>
+                    alert('pop');
                 } else {
                     // set a new pin code for user
-                    this.initControl =
-                        <KeyboardAvoidingView style={styles.login_container}>
-                        </KeyboardAvoidingView>
+
                 }
             }
-        } catch (error) {
 
+        } catch (error) {
+            alert('err');
         }
 
     }
@@ -109,8 +64,13 @@ export default class Landing extends Component{
     render (){
 
         return (
-            <View style={styles.landing_container}>
-                {this.initControl}
+            <View style={styles.landing_container} >
+                <KeyboardAvoidingView style={styles.login_container}>
+
+                   <ActivityIndicator size={'large'} color={'pink'}/>
+
+                </KeyboardAvoidingView>
+                <Button title={"clicker"} onPress={()=>{this.props.navigation.navigate('Login')}}/>
             </View>
         );
     }

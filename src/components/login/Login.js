@@ -13,8 +13,26 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
+import  styles from '../../../resources/styles/Nav1StyleSheet';
 
 export default class Login extends Component{
+
+    constructor(props){
+
+        super(props);
+        this.state = {
+            user:{
+                username:'',
+                password: '',
+                pin_code: '',
+
+            },
+            username:'',
+            password: '',
+            pin_code: '',
+            pin_check: '',
+        }
+    }
 
     render (){
         return (
@@ -53,52 +71,3 @@ export default class Login extends Component{
         );
     }
 }
-
-const styles = StyleSheet.create({
-    login_container:{
-        backgroundColor:'#2896d3',
-        flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingRight:40,
-        paddingLeft:40,
-    },
-    login_header:{
-        borderColor: '#ccc',
-        marginBottom:30,
-    },
-    login_text_imput:{
-        fontSize:16,
-        color: '#c2c2d6',
-        padding: 10,
-        alignSelf: 'stretch',
-        backgroundColor:'white',
-        marginBottom:20,
-    },
-    login_text:{
-        color:'white',
-        fontSize:24,
-    },
-    login_btn:{
-        backgroundColor:'#01c853',
-        justifyContent:'center',
-        alignSelf:'stretch',
-        alignItems:'center',
-        paddingTop:10,
-        paddingBottom:10,
-    },
-    login_txt:{
-        color:'white',
-        fontSize:16,
-    },
-    login_register:{
-       marginTop:20
-
-    },
-    login_header_img:{
-        height:100,
-        width: 100,
-        marginBottom: 30,
-    }
-
-});
